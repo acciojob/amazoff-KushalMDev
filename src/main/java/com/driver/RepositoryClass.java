@@ -16,17 +16,22 @@ public class RepositoryClass {
 
 	public void saveOrderMapping(Order order) {
 		// TODO Auto-generated method stub
-		orderMapping.put(order.getId(), order);
-		unassignedorderMapping.put(order.getId(), order);
+		if(order.getId().length()!=0 && order.getDeliveryTime()!=0)
+		{orderMapping.put(order.getId(), order);
+		unassignedorderMapping.put(order.getId(), order);}
 	}
 
 	public void addPartner(String partnerId) {
 		// TODO Auto-generated method stub
-		deliveryPartner.put(partnerId, new DeliveryPartner(partnerId));
+		if(partnerId.length()!=0)
+			deliveryPartner.put(partnerId, new DeliveryPartner(partnerId));
 	}
 
 	public void addOrderPartnerPair(String orderId, String partnerId) {
 		// TODO Auto-generated method stub
+		if(!orderMapping.containsKey(orderId) || !deliveryPartner.containsKey(partnerId)){
+			return;
+		}
 		ArrayList<Order> list = deliveryPartnerOrderMapping.getOrDefault(partnerId, new ArrayList<>());
 		for (String key : orderMapping.keySet()) {
 			if (key.equals(orderId)) {
@@ -120,6 +125,9 @@ public class RepositoryClass {
 	            String mnts = time.substring(3);
 	            giventime = Integer.parseInt(hrs)*60 + Integer.parseInt(mnts);
 	        }
+		else{
+			return 0;
+		}
 		 for (Order order : deliveryPartnerOrderMapping.get(partnerId)) {
 				int orderTime=order.getDeliveryTime();
 				if(orderTime>giventime) {

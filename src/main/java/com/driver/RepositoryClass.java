@@ -74,7 +74,6 @@ public class RepositoryClass {
 			return new ArrayList<>();
 		}
 		List<String> result = new ArrayList<>();
-
 		ArrayList<Order> list = deliveryPartnerOrderMapping.get(partnerId);
 		for (Order order : list) {
 			result.add(order.getId());

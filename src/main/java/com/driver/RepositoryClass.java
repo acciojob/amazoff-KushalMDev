@@ -79,7 +79,7 @@ public class RepositoryClass {
 			return new ArrayList<>();
 		}
 		List<String> result = new ArrayList<>();
-		ArrayList<Order> list = deliveryPartnerOrderMapping.get(partnerId);
+		ArrayList<Order> list = deliveryPartnerOrderMapping.getOrDefault(partnerId,new ArrayList<>());
 		for (Order order : list) {
 			result.add(order.getId());
 		}

@@ -45,21 +45,34 @@ public class RepositoryClass {
 
 	public Order getOrderById(String orderId) {
 		// TODO Auto-generated method stub
-		return orderMapping.get(orderId);
+		if(orderMapping.containsKey(orderId))
+			return orderMapping.get(orderId);
+		return null;
 	}
 
 	public DeliveryPartner getPartnerById(String partnerId) {
 		// TODO Auto-generated method stub
-		return deliveryPartner.get(partnerId);
+		if(deliveryPartner.containsKey(partnerId))
+			return deliveryPartner.get(partnerId);
+		return null;
 	}
 
 	public Integer getOrderCountByPartnerId(String partnerId) {
 		// TODO Auto-generated method stub
+		if(!deliveryPartner.containsKey(partnerId)){
+			return 0;
+		}
+		if(!(deliveryPartnerOrderMapping.containsKey(partnerId))){
+			deliveryPartnerOrderMapping.put(partnerId, new ArrayList<>());
+		}
 		return deliveryPartnerOrderMapping.get(partnerId).size();
 	}
 
 	public List<String> getOrdersByPartnerId(String partnerId) {
 		// TODO Auto-generated method stub
+		if(!deliveryPartner.containsKey(partnerId)){
+			return new ArrayList<>();
+		}
 		List<String> result = new ArrayList<>();
 
 		ArrayList<Order> list = deliveryPartnerOrderMapping.get(partnerId);
@@ -119,6 +132,9 @@ public class RepositoryClass {
 
 	public String getLastDeliveryTimeByPartnerId(String partnerId) {
 		// TODO Auto-generated method stub
+		if(!deliveryPartner.containsKey(partnerId)){
+			return null;
+		}
 		int time=0;
 		for (Order order : deliveryPartnerOrderMapping.get(partnerId)) {
 			int deliveryTime=order.getDeliveryTime();
@@ -145,6 +161,9 @@ public class RepositoryClass {
 
 	public void deletePartnerById(String partnerId) {
 		// TODO Auto-generated method stub
+			if(!deliveryPartner.containsKey(partnerId)){
+			return ;
+		}
 		for(Order order:deliveryPartnerOrderMapping.get(partnerId)) {
 			unassignedorderMapping.put(order.getId(), order);
 		}
@@ -154,6 +173,9 @@ public class RepositoryClass {
 
 	public void deleteOrderById(String orderId) {
 		// TODO Auto-generated method stub
+		if(!orderMapping.containsKey(orderId)){
+			return;
+		}
 		orderMapping.remove(orderId);
 		unassignedorderMapping.remove(orderId);
 		for (String key : deliveryPartnerOrderMapping.keySet()) {

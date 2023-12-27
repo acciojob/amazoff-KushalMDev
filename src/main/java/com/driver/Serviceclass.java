@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Serviceclass {
-	@Autowired
-	RepositoryClass repositoryClass;
+	//@Autowired
+	RepositoryClass repositoryClass= new RepositoryClass();
 
 	public void saveOrderMapping(Order order) {
 		// TODO Auto-generated method stub
